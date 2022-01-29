@@ -8,17 +8,19 @@ let fullPrice = 500;
 const adaptive = false;
 
 
-console.log(typeof title);
-console.log(typeof fullPrice);
-console.log(typeof adaptive);
+console.log('Тип переменной:',typeof title);
+console.log('Тип переменной:',typeof fullPrice);
+console.log('Тип переменной:',typeof adaptive);
 
 
-console.log(screens.length);
+console.log('Длинна строки:',screens.length);
 
 
 console.log("Стоимость верстки экранов", screenPrice, "долларов.");
+console.log("Стоимость разработки сайта", fullPrice, "долларов.");
 
-console.log(screens.toLowerCase());
+
+console.log(screens.toLowerCase().split(', '));
 
 
 console.log("Процент отката посреднику за работу", fullPrice * rollback / 100);
