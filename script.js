@@ -5,8 +5,7 @@ let screens
 let screenPrice
 let adaptive
 let rollback = 20
-let service1
-let service2
+
 let allServicePrices
 let fullPrice
 let servicePercentPrice
@@ -32,7 +31,7 @@ const asking = function () {
 
 const getAllServicePrices = function () {
   let sum = 0
-  let sum1 = 0
+  let result = 0
 
   for (let i = 0; i < 2; i++) {
 
@@ -44,13 +43,18 @@ const getAllServicePrices = function () {
 
     }
 
-    do { sum = prompt("Сколько это будет стоить?"), sum1 += +sum }
+    do { 
+      sum = prompt("Сколько это будет стоить?")
+      if (!isNumber(sum)===false) 
+        result += +sum 
+    
+    }
 
     while (!isNumber(sum))
 
   }
 
-  return sum1
+  return result
 
 
   //return price1+price2
