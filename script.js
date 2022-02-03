@@ -104,6 +104,6 @@ console.log("allServicePrices", allServicePrices);
 console.log(showTypeOf(title));
 console.log(showTypeOf(screenPrice));
 console.log(showTypeOf(adaptive));
-console.log(screens.toString());
+console.log(screens.toLowerCase().toString());
 console.log("Итоговая стоимость работы", servicePercentPrice, "рублей.");
 console.log(getRollbackMessage(fullPrice))
