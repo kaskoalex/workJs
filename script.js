@@ -5,7 +5,8 @@ let screens
 let screenPrice
 let adaptive
 let rollback = 20
-
+let service1
+let service2
 let allServicePrices
 let fullPrice
 let servicePercentPrice
@@ -45,12 +46,14 @@ const getAllServicePrices = function () {
 
     do { 
       sum = prompt("Сколько это будет стоить?")
-      if (!isNumber(sum)===false) 
-        result += +sum 
+       
+        
     
     }
 
     while (!isNumber(sum))
+
+    result += +sum 
 
   }
 
@@ -61,8 +64,9 @@ const getAllServicePrices = function () {
 }
 
 const getFullPrice = function (price1, price2) {
-  return price1 + price2
+  return +price1 + price2;
 }
+
 
 const getTitle = function (title1) {
   title1 = title1.trim()
@@ -104,6 +108,7 @@ servicePercentPrice = getServicePercentPrice(fullPrice, rollback)
 
 
 console.log("allServicePrices", allServicePrices);
+
 
 console.log(showTypeOf(title));
 console.log(showTypeOf(screenPrice));
