@@ -101,6 +101,12 @@ const appData={
     }
   },
 
+  logger: function () {
+    for (let key in appData) {
+      console.log(key, typeof appData[key] === "function" , ":", appData[key]);
+    }
+  },
+
 
   start:function() {
     appData.asking(),
@@ -108,6 +114,7 @@ const appData={
     appData.fullPrice = appData.getFullPrice(appData.screenPrice, appData.allServicePrices);
     appData.title = appData.getTitle(appData.title);
     appData.servicePercentPrice = appData.getServicePercentPrice(appData.fullPrice, appData.rollback);
+    appData.logger();
 
 
     console.log("allServicePrices", appData.allServicePrices);
@@ -121,11 +128,7 @@ const appData={
 
   },
 
-  logger: function () {
-    for (let prop in appData) {
-      console.log(prop);
-    }
-  }
+  
 
 }
 
