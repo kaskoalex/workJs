@@ -2,24 +2,24 @@
 
 
 
-const appData={
-  title:"",
-  screens:"",
-  screenPrice:"",
-  adaptive:"",
-  rollback:"20",
-  service1:"",
-  service2:"",
-  allServicePrices:"",
-  fullPrice:"",
-  servicePercentPrice:"",
+const appData = {
+  title: "",
+  screens: "",
+  screenPrice: "",
+  adaptive: "",
+  rollback: "20",
+  service1: "",
+  service2: "",
+  allServicePrices: "",
+  fullPrice: "",
+  servicePercentPrice: "",
 
   isNumber: function (num) {
     return !isNaN(parseFloat(num)) && isFinite(num)
 
   },
 
-  asking:function () {
+  asking: function () {
     appData.title = prompt("Как называется ваш проект?", "Калькулятор вёрстки");
     appData.screens = prompt("Какие типы экранов нужно разработать? - ", "Простые, Сложные, Интерактивные");
 
@@ -47,21 +47,21 @@ const appData={
 
       }
 
-      do { 
+      do {
         sum = prompt("Сколько это будет стоить?")
-        
-          
-      
+
+
+
       }
 
       while (!appData.isNumber(sum))
 
-      result += +sum 
+      result += +sum
 
     }
 
     return result
-    
+
   },
 
   getFullPrice: function (price1, price2) {
@@ -81,14 +81,14 @@ const appData={
 
   },
 
-  showTypeOf:function (variable) {
+  showTypeOf: function (variable) {
     return typeof variable;
   },
 
 
 
 
-  getRollbackMessage:function (price) {
+  getRollbackMessage: function (price) {
     switch (true) {
       case price >= 30000:
         return "Даем скидку в 10%"
@@ -103,14 +103,14 @@ const appData={
 
   logger: function () {
     for (let key in appData) {
-      console.log(key, typeof appData[key] === "function" , ":", appData[key]);
+      console.log(key,  ":", appData[key]);
     }
   },
 
 
-  start:function() {
+  start: function () {
     appData.asking(),
-    appData.allServicePrices = appData.getAllServicePrices();
+      appData.allServicePrices = appData.getAllServicePrices();
     appData.fullPrice = appData.getFullPrice(appData.screenPrice, appData.allServicePrices);
     appData.title = appData.getTitle(appData.title);
     appData.servicePercentPrice = appData.getServicePercentPrice(appData.fullPrice, appData.rollback);
@@ -118,7 +118,7 @@ const appData={
 
 
     console.log("allServicePrices", appData.allServicePrices);
-    
+
     console.log(appData.showTypeOf(appData.title));
     console.log(appData.showTypeOf(appData.screenPrice));
     console.log(appData.showTypeOf(appData.adaptive));
@@ -128,7 +128,7 @@ const appData={
 
   },
 
-  
+
 
 }
 
