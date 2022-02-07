@@ -75,7 +75,7 @@ const appData = {
   addPrices: function () {
 
     appData.screenPrice = appData.screens.reduce(function(a, b) {
-      return a + b.price;
+      return a + +b.price;
     },0);
 
     for (let key in appData.services) {
