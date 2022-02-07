@@ -31,13 +31,13 @@ const appData = {
   asking: function () {
     do {
       appData.title = prompt("Как называется ваш проект?", "Калькулятор вёрстки");
-    } while (typeof appData.title !== "string" || appData.isNumber(appData.title) || typeof appData.title === null)  
+    } while (typeof appData.title !== "string" || appData.isNumber(appData.title) || typeof appData.title === null || appData.title == "")  
 
     for (let i = 0; i < 2; i++) {
       let name =""
       do {
         name=prompt("Какие типы экранов нужно разработать?","Напишите тип экрана.")
-      } while (typeof name !== "string" || appData.isNumber(name) || typeof name === null) 
+      } while (typeof name !== "string" || appData.isNumber(name) || typeof name === null || name == "") 
         
         
       let price = 0
@@ -54,7 +54,7 @@ const appData = {
       let name
       do {
         name = prompt("Какой дополнительный тип услуги нужен?")
-      } while (typeof name !== "string" || appData.isNumber(name) || typeof name === null)  
+      } while (typeof name !== "string" || appData.isNumber(name) || typeof name === null || name == "")  
 
       let price = 0
       do {
