@@ -33,6 +33,7 @@ console.log(rangeValue);
 
 const totalInput = document.getElementsByClassName("total-input")
 for (let i = 0; i < 5; i++) {
+  totalInput[i]
   console.log(totalInput[i])
 };
 
