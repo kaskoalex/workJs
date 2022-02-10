@@ -14,14 +14,13 @@ console.log(buttonPlus);
 
 //Получить все элементы с классом other-items в две разные переменные. 
 
-const otherItems = document.querySelectorAll(".other-items");
-const percentItems = document.querySelectorAll(".percent");
-const numberItems = document.querySelectorAll(".number")
-console.log(otherItems, percentItems, numberItems);
+const percentItems = document.querySelectorAll(".other-items.percent");
+const numberItems = document.querySelectorAll(".other-items.number")
+console.log(percentItems, numberItems);
 
 //Получить input type=range через его родителя с классом rollback одним запросом через метод querySelector.
 
-const inputTypeRange = document.querySelector(".rollback").querySelector('[type="range"]');
+const inputTypeRange = document.querySelectorAll(".rollback .range-value")[0];
 console.log(inputTypeRange);
 
 //Получить span с классом range-value через его родителя с классом rollback одним запросом через метод querySelector.
@@ -32,10 +31,12 @@ console.log(rangeValue);
 //Получить все инпуты с классом total-input справа через метод getElementsByClassName. (класс total-input, получить именно элементы, а не коллекции)
 
 const totalInput = document.getElementsByClassName("total-input")
-for (let i = 0; i < 5; i++) {
-  totalInput[i]
-  console.log(totalInput[i])
-};
+let screenPrice = totalInput[0]
+let quantity = totalInput[1]
+let allServicePrices = totalInput[2]
+let fullPrice = totalInput[3]
+let servicePercentPrice = totalInput[4]
+
 
 //Получить все блоки с классом screen в изменяемую переменную(let) через метод querySelectorAll(далее мы будем переопределять ее значение)
 
