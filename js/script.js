@@ -47,19 +47,19 @@ const appData = {
   servicesPercent: {},
   servicesNumber: {},
   init: function () {
-    appData.addTitle()
+    this.addTitle();
 
     startBtn.addEventListener('click', appData.start)
     buttonPlus.addEventListener('click', appData.addScreenBlock)
 
     inputRollback.addEventListener('input', appData.getRollback)
   },
-  addTitle: function () {
+  addTitle: () => {
     document.title = title
 
   },
 
-  start: function () {
+  start: () => {
 
     appData.addScreens()
     appData.addServices()
@@ -73,7 +73,7 @@ const appData = {
     appData.showResult()
   },
 
-  showResult: function () {
+  showResult: () => {
     total.value = appData.screenPrice
     totalCountOther.value = appData.servicePricesPercent + appData.servicePricesNumber
     fullTotalCount.value = appData.fullPrice
@@ -81,27 +81,29 @@ const appData = {
     totalCount.value = appData.screenCount // вывод кол экранов
   },
 
-  // процент отката
-  getRollback: function (event) {
+  // процент (%) отката
+  getRollback: (event) => {
     appData.rollback = event.target.value;
-    // отображение процента отката 
+    // отображение (%) процента отката 
     appData.showInputRollback();
+    
 
     // изменение отката после рассчёта  
     if (appData.fullPrice) {
       appData.addPrices();
       appData.showResult();
+      console.log(appData.fullPrice)
     }
   },
 
   // показ процента отката 
-  showInputRollback: function () {
+  showInputRollback: () => {
     inputRollbackValue.textContent = appData.rollback + '%';
   },
 
 
 
-  addScreens: function () {
+  addScreens: () => {
     screens = document.querySelectorAll(".screen")
     appData.screens = []
 
@@ -140,7 +142,7 @@ const appData = {
 
 
   },
-  addServices: function () {
+  addServices: () => {
     otherItemsPercent.forEach(function (item) {
       const check = item.querySelector('input[type=checkbox]')
       const label = item.querySelector('label')
@@ -153,7 +155,7 @@ const appData = {
 
     })
 
-    otherItemsNumber.forEach(function (item) {
+    otherItemsNumber.forEach(item => {
       const check = item.querySelector('input[type=checkbox]')
       const label = item.querySelector('label')
       const input = item.querySelector('input[type=text]')
@@ -167,7 +169,7 @@ const appData = {
 
   },
 
-  addScreenBlock: function () {
+  addScreenBlock: () => {
     const cloneScreen = screens[0].cloneNode(true)
 
     screens[screens.length - 1].after(cloneScreen)
@@ -175,9 +177,9 @@ const appData = {
   },
 
 
-  addPrices: function () {
+  addPrices: () => {
 
-    appData.screenPrice = appData.screens.reduce(function (a, b) {
+    appData.screenPrice = appData.screens.reduce((a, b) => {
       return a + +b.price;
     }, 0);
 
@@ -205,7 +207,7 @@ const appData = {
   },
 
 
-  logger: function () {
+  logger: () => {
     console.log("fullPrice: ", appData.fullPrice);
     console.log("servicePercentPrice: ", appData.servicePercentPrice);
     console.log(appData.screens);
