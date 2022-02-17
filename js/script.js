@@ -49,65 +49,64 @@ const appData = {
   init: function () {
     this.addTitle();
 
-    startBtn.addEventListener('click', appData.start)
-    buttonPlus.addEventListener('click', appData.addScreenBlock)
+    startBtn.addEventListener('click', this.start.bind(this))
+    buttonPlus.addEventListener('click', this.addScreenBlock.bind(this))
 
-    inputRollback.addEventListener('input', appData.getRollback)
+    inputRollback.addEventListener('input', this.getRollback.bind(this))
   },
   addTitle: () => {
     document.title = title
 
   },
 
-  start: () => {
+  start: function()  {
 
-    appData.addScreens()
-    appData.addServices()
-    appData.showInputRollback()
+    this.addScreens()
+    this.addServices()
+    this.showInputRollback()
 
-    appData.addPrices()
-    /*
-        
-    appData.logger()*/
-    console.log(appData);
-    appData.showResult()
+    this.addPrices()
+   
+    this.showResult()
   },
 
-  showResult: () => {
-    total.value = appData.screenPrice
-    totalCountOther.value = appData.servicePricesPercent + appData.servicePricesNumber
-    fullTotalCount.value = appData.fullPrice
-    totalCountRollback.value = appData.servicePercentPrice
-    totalCount.value = appData.screenCount // вывод кол экранов
+  showResult: function ()  {
+    total.value = this.screenPrice
+    totalCountOther.value = this.servicePricesPercent + this.servicePricesNumber
+    fullTotalCount.value = this.fullPrice
+    totalCountRollback.value = this.servicePercentPrice // Стоимость с учетом отката
+
+    console.log(totalCountRollback.value)
+    totalCount.value = this.screenCount // вывод кол экранов
   },
 
   // процент (%) отката
-  getRollback: (event) => {
-    appData.rollback = event.target.value;
+  getRollback: function (event)  {
+    this.rollback = event.target.value;
     // отображение (%) процента отката 
-    appData.showInputRollback();
-    
+    this.showInputRollback();
+    console.log(this.rollback)
 
     // изменение отката после рассчёта  
     if (appData.fullPrice) {
-      appData.addPrices();
-      appData.showResult();
-      console.log(appData.fullPrice)
+      this.addPrices();
+      totalCountRollback.value = this.servicePercentPrice ;
+      console.log(this.fullPrice)
     }
   },
 
   // показ процента отката 
-  showInputRollback: () => {
-    inputRollbackValue.textContent = appData.rollback + '%';
+  showInputRollback: function()  {
+    inputRollbackValue.textContent = this.rollback + '%';
   },
 
 
 
-  addScreens: () => {
+  addScreens: function ()  {
     screens = document.querySelectorAll(".screen")
-    appData.screens = []
+    this.screens = []
 
-    screens.forEach(function (screen, index) {
+    screens.forEach( (screen, index) => {
 
       const select = screen.querySelector('select')
       const input = screen.querySelector('input')
@@ -122,7 +121,7 @@ const appData = {
         alert('Введите тип экранов'); break
       }
 
-      if (!value || value < 1 || value > appData.maxTypeScreens) {
+      if (!value || value < 1) {
         input.style.backgroundColor = 'hotpink';
         alert('Введите количество экранов');
 
@@ -130,7 +129,7 @@ const appData = {
 
 
 
-      appData.screens.push({
+      this.screens.push({
         id: index,
         name: selectName,
         price: +select.value * +input.value,
@@ -142,7 +141,7 @@ const appData = {
 
 
   },
-  addServices: () => {
+  addServices: function() {
     otherItemsPercent.forEach(function (item) {
       const check = item.querySelector('input[type=checkbox]')
       const label = item.querySelector('label')
@@ -150,24 +149,28 @@ const appData = {
 
 
       if (check.checked) {
-        appData.servicesPercent[label.textContent] = +input.value
+        this.servicesPercent[label.textContent] = +input.value  // Процент Услуги
+        
       }
 
     })
 
-    otherItemsNumber.forEach(item => {
+    otherItemsNumber.forEach( (item) => {
       const check = item.querySelector('input[type=checkbox]')
       const label = item.querySelector('label')
       const input = item.querySelector('input[type=text]')
 
 
       if (check.checked) {
-        appData.servicesNumber[label.textContent] = +input.value
+        this.servicesNumber[label.textContent] = +input.value  // Сумма услуг Number в рублях
+        
       }
 
     })
-
+  
   },
+  
+  
 
   addScreenBlock: () => {
     const cloneScreen = screens[0].cloneNode(true)
@@ -177,40 +180,40 @@ const appData = {
   },
 
 
-  addPrices: () => {
+  addPrices: function () {
 
-    appData.screenPrice = appData.screens.reduce((a, b) => {
+    this.screenPrice = this.screens.reduce((a, b) => {
       return a + +b.price;
     }, 0);
 
-    for (let key in appData.servicesNumber) {
-      appData.servicePricesNumber = +appData.servicePricesNumber + +appData.servicesNumber[key]
+    for (let key in this.servicesNumber) {
+      this.servicePricesNumber = this.servicePricesNumber + this.servicesNumber[key]
     };
 
-    for (let key in appData.servicesPercent) {
-      appData.servicePricesPercent += appData.screenPrice * (appData.servicesPercent[key] / 100)
+    for (let key in this.servicesPercent) {
+      this.servicePricesPercent = this.screenPrice * (this.servicesPercent[key] / 100)
     };
 
-    appData.fullPrice = +appData.screenPrice + +appData.servicePricesNumber + appData.servicePricesPercent
+    this.fullPrice = +this.screenPrice + +this.servicePricesNumber + this.servicePricesPercent
 
-    appData.servicePercentPrice = Math.ceil(appData.fullPrice * (100 - appData.rollback) / 100)
+    this.servicePercentPrice = Math.ceil(this.fullPrice * (100 - this.rollback) / 100)
     // итоговая стоимость с учётом (вычетом) суммы отката посреднику
 
-    appData.screenCount = 0
-    console.dir(appData.screenCount);
-    for (let i = 0; i < appData.screens.length; i++) {
-      appData.screenCount += appData.screens[i].count;
+    this.screenCount = 0
+    console.dir(this.screenCount);
+    for (let i = 0; i < this.screens.length; i++) {
+      this.screenCount += this.screens[i].count;
     }
-    console.log(appData.screenCount);
-    console.dir(appData.screens)
+    console.log(this.screenCount);
+    console.dir(this.screens)
 
   },
 
 
   logger: () => {
-    console.log("fullPrice: ", appData.fullPrice);
-    console.log("servicePercentPrice: ", appData.servicePercentPrice);
-    console.log(appData.screens);
+    console.log("fullPrice: ", this.fullPrice);
+    console.log("servicePercentPrice: ", this.servicePercentPrice);
+    console.log(this.screens);
 
   },
 
