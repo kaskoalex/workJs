@@ -4,9 +4,6 @@ const title = document.getElementsByTagName("h1").title.outerText
 const buttonPlus = document.querySelector(".screen-btn")
 
 
-const buttonStart = document.getElementsByClassName("handler_btn")[0]
-const buttonReset = document.getElementsByClassName("handler_btn")[1]
-
 const otherItemsPercent = document.querySelectorAll(".other-items.percent");
 const otherItemsNumber = document.querySelectorAll(".other-items.number")
 
@@ -15,8 +12,8 @@ const otherItemsNumber = document.querySelectorAll(".other-items.number")
 const inputTypeRange = document.querySelectorAll(".rollback .range-value")[0];
 const rangeValue = document.querySelector(".rollback").querySelector('.range-value');
 
-const startBtn = document.getElementsByClassName('handler_btn')[0]
-const resetBtn = document.getElementsByClassName('handler_btn')[1]
+const startButton = document.getElementsByClassName('handler_btn')[0]
+const resetButton = document.getElementsByClassName('handler_btn')[1]
 
 const totalInput = document.getElementsByClassName("total-input")
 let total = totalInput[0]
@@ -31,6 +28,9 @@ let screens = document.querySelectorAll(".screen")
 
 const inputRollback = document.querySelector('.rollback input')
 const inputRollbackValue = document.querySelector('.rollback .range-value')
+
+
+const inputs = document.querySelector('input[type=text]')
 
 
 const appData = {
@@ -49,28 +49,31 @@ const appData = {
   init: function () {
     this.addTitle();
 
-    startBtn.addEventListener('click', this.start.bind(this))
+    startButton.addEventListener('click', this.start.bind(this))// запуск расчёта
     buttonPlus.addEventListener('click', this.addScreenBlock.bind(this))
 
     inputRollback.addEventListener('input', this.getRollback.bind(this))
+    resetButton.addEventListener('click', this.reset.bind(this))// кнопка реазет, сброс данных
   },
   addTitle: () => {
     document.title = title
 
   },
 
-  start: function()  {
+  start: function () {
 
     this.addScreens()
     this.addServices()
     this.showInputRollback()
 
     this.addPrices()
-   
+
     this.showResult()
+    this.blockade()
+    this.switchReset()
   },
 
-  showResult: function ()  {
+  showResult: function () {
     total.value = this.screenPrice
     totalCountOther.value = this.servicePricesPercent + this.servicePricesNumber
     fullTotalCount.value = this.fullPrice
@@ -81,7 +84,7 @@ const appData = {
   },
 
   // процент (%) отката
-  getRollback: function (event)  {
+  getRollback: function (event) {
     this.rollback = event.target.value;
     // отображение (%) процента отката 
     this.showInputRollback();
@@ -90,23 +93,107 @@ const appData = {
     // изменение отката после рассчёта  
     if (appData.fullPrice) {
       this.addPrices();
-      totalCountRollback.value = this.servicePercentPrice ;
+      totalCountRollback.value = this.servicePercentPrice;
       console.log(this.fullPrice)
     }
   },
 
   // показ процента отката 
-  showInputRollback: function()  {
+  showInputRollback: function () {
     inputRollbackValue.textContent = this.rollback + '%';
   },
 
 
+  blockade: function () { // Блокировать (свойство disabled) все input[type=text] и select с левой стороны после нажатия кнопки Рассчитать
+    let selects = document.querySelectorAll('select')
+    buttonPlus.disabled = true
+    inputs.disabled = true
 
-  addScreens: function ()  {
+    selects.forEach(function (item) { 
+      item.disabled=true
+      console.log(item)
+    
+     })
+    
+    
+    console.log(selects)
+
+
+  },
+
+  switchReset: function () {// Переключение кнопок
+    startButton.style.display = 'none'
+    resetButton.style.display = 'block'
+
+  },
+
+  reset: function () {  // функции сброса
+    
+    startButton.style.display = 'block'
+    resetButton.style.display = 'none'
+
+    const select = document.querySelector('select');
+    const input = document.querySelector('input');
+
+    buttonPlus.disabled = false  
+    
+
+
+    total.value = '0'
+    totalCountOther.value = '0'
+    fullTotalCount.value = '0'
+    totalCountRollback.value = '0' // Стоимость с учетом отката
+    console.log(totalCountRollback.value)
+    totalCount.value = '0'// вывод кол экранов 
+    
+    
+
+    
+    screens.forEach((screen) => {    
+    
+      select.selectedIndex = 0;
+      input.value = '';
+      input.style.backgroundColor = 'white'
+      select.style.backgroundColor = 'white'
+      select.disabled=false
+      input.disabled=false
+
+      for (let i = 1; i < screens.length; i++) {
+        screens[i].remove();
+      }
+    })
+
+    screens = document.querySelectorAll('.screen');
+    this.screens = [];
+    
+
+  
+
+    
+
+    
+     
+    this.rollback = 0;
+    this.servicePricesPercent = 0;
+    this.servicePricesNumber = 0;
+    this.fullPrice = 0;    
+    this.screenPrice = 0;
+    this.screenCount = 0;
+    this.servicePercentPrice = 0;
+    
+     
+
+    
+
+  },
+
+
+
+  addScreens: function () {
     screens = document.querySelectorAll(".screen")
     this.screens = []
 
-    screens.forEach( (screen, index) => {
+    screens.forEach((screen, index) => {
 
       const select = screen.querySelector('select')
       const input = screen.querySelector('input')
@@ -141,7 +228,7 @@ const appData = {
 
 
   },
-  addServices: function() {
+  addServices: function () {
     otherItemsPercent.forEach(function (item) {
       const check = item.querySelector('input[type=checkbox]')
       const label = item.querySelector('label')
@@ -150,12 +237,12 @@ const appData = {
 
       if (check.checked) {
         this.servicesPercent[label.textContent] = +input.value  // Процент Услуги
-        
+
       }
 
     })
 
-    otherItemsNumber.forEach( (item) => {
+    otherItemsNumber.forEach((item) => {
       const check = item.querySelector('input[type=checkbox]')
       const label = item.querySelector('label')
       const input = item.querySelector('input[type=text]')
@@ -163,14 +250,14 @@ const appData = {
 
       if (check.checked) {
         this.servicesNumber[label.textContent] = +input.value  // Сумма услуг Number в рублях
-        
+
       }
 
     })
-  
+
   },
-  
-  
+
+
 
   addScreenBlock: () => {
     const cloneScreen = screens[0].cloneNode(true)
@@ -200,7 +287,7 @@ const appData = {
     // итоговая стоимость с учётом (вычетом) суммы отката посреднику
 
     this.screenCount = 0
-    console.dir(this.screenCount);
+    
     for (let i = 0; i < this.screens.length; i++) {
       this.screenCount += this.screens[i].count;
     }
