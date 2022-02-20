@@ -86,7 +86,7 @@ const appData = {
     
 
     // изменение отката после рассчёта  
-    if (appData.fullPrice) {
+    if (this.fullPrice) {
       this.addPrices();
       totalCountRollback.value = this.servicePercentPrice;
       
